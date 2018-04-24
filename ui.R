@@ -2,10 +2,10 @@ library(shiny)
 
 ui <- fluidPage(
   tags$head(includeScript("google-analytics.js")),
-  headerPanel("steemg, a collection of steem contests, Steem 各种活动汇总"),
+  headerPanel("steemg: a collection of steem contests. Steem 各种活动荟萃。"),
   tabsetPanel(
     ###### steemguides ######
-    tabPanel("Steem 指南",
+    tabPanel("Steem 指南|Steem Handbook",
              sidebarLayout(
                sidebarPanel(
                  p(),
@@ -100,7 +100,7 @@ ui <- fluidPage(
     
     
     ###### Monthly Review ######
-    tabPanel("月旦评",
+    tabPanel("月旦评|Monthly Review",
              sidebarLayout(
                sidebarPanel(
                  p(),
@@ -108,6 +108,8 @@ ui <- fluidPage(
                  h2("月旦评"),
                  h4("用途: "),
                  "展示月旦评文章和作者。", 
+                 h4("Features: "),
+                 "To display the participants in the Monthly Review Contest.", 
                  p(),
                  hr(),
                  h4('用法: '),
@@ -199,6 +201,100 @@ ui <- fluidPage(
                ),
                position = "right"
              )
+    ),
+
+###### cnkids ######
+tabPanel("儿童作品|CN-kids",
+         sidebarLayout(
+           sidebarPanel(
+             p(),
+             img(src="https://steemitimages.com/0x0/https://www.seewhatgrows.org/wp-content/uploads/2016/05/Sustainable-Gardening-Tips.jpg", width="300"),
+             h2("儿童作品比赛活动"),
+             h4("用途: "),
+             "展示儿童作品比赛的文章和作者。", 
+             h4("Features: "),
+             "To display the participants in the CN-kids contest.", 
+             p(),
+             hr(),
+             h4('用法: '),
+             p(),
+             "- 单击文章标题或作者会跳转至 steemit。有的浏览器因安全级别高而屏蔽了跳转，改用请用 ctrl + 鼠标左键单击即可;",
+             p(),
+             "- 可以选择第一列“座次”按哪个指标排序;",
+             p(),
+             "- 可以选择第一列“座次”按哪个指标排序;",
+             p(),
+             "- 可以选择显示哪些列;",
+             p(),
+             "- 点击表格顶部标题可以正反排序;",
+             p(),
+             "- 表格右上角搜索栏可以在全表搜索，底部末行可以关键词过滤。",
+             p(),
+             hr(),
+             h4("联系"),
+             '本网站归', a(href = 'https://steemit.com/@dapeng', '@dapeng'), ' 所有。欢迎提供建议。', 
+             p(),
+             img(src="steemit-watermark.png", width="131", height="38"),
+             hr(),
+             wellPanel(
+               h4("累计文章数量"),
+               plotOutput('cnkids_plot3', height = 200),
+               hr(),
+               h4("累计获赞数量"),
+               plotOutput('cnkids_plot1', height = 200),
+               hr(),
+               h4("累计文章收益"),
+               plotOutput('cnkids_plot2', height = 200)
+             )
+             
+           ),
+           mainPanel(
+             wellPanel(
+               h3("文章榜："),
+               hr(),
+               checkboxGroupInput(
+                 inputId = "cnkids_colsel",
+                 label   = "选择显示哪些列:",
+                 choices = c('date', 'author', 'title', 'payout','votes'), #'level', 
+                 selected = c('date', 'author', 'title', 'payout','votes'),
+                 inline = TRUE
+               ),
+               hr(),
+               radioButtons(
+                 inputId = "cnkidsN",
+                 label   = "座次依据:",
+                 # label   = "Rank in:",
+                 choices = c('payout','votes'),
+                 selected = 'payout',
+                 inline = TRUE
+               ),
+               hr(),
+               
+               dataTableOutput('cnkids_dt1')
+             ),
+             wellPanel(
+               h3("人物榜："),
+               hr(),
+               checkboxGroupInput(
+                 inputId = "cnkidsa_colsel",
+                 label   = "选择显示哪些列:",
+                 choices = c('author', 'posts', 'payout','votes'),
+                 selected = c('author', 'posts', 'payout','votes'),
+                 inline = TRUE
+               ),
+               hr(),
+               radioButtons(
+                 inputId = "cnkidsaN",
+                 label   = "座次依据:",
+                 choices = c('posts', 'payout','votes'),
+                 selected = 'posts',
+                 inline = TRUE
+               ),
+               hr(),
+               dataTableOutput('cnkids_dt2')
+             )),
+           position = "right"
+         )
     )
   )
 )
