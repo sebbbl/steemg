@@ -203,6 +203,100 @@ ui <- fluidPage(
              )
     ),
 
+    ###### cngreen ######
+    tabPanel("环保征文|CN-green",
+             sidebarLayout(
+               sidebarPanel(
+                 p(),
+                 img(src="https://steemitimages.com/0x0/https://www.seewhatgrows.org/wp-content/uploads/2016/05/Sustainable-Gardening-Tips.jpg", width="300"),
+                 h2("环保主题征文"),
+                 h4("用途: "),
+                 "展示环保主题征文作品的文章和作者。", 
+                 h4("Features: "),
+                 "To display the participants in the CN-green contest.", 
+                 p(),
+                 hr(),
+                 h4('用法: '),
+                 p(),
+                 "- 单击文章标题或作者会跳转至 steemit。有的浏览器因安全级别高而屏蔽了跳转，改用请用 ctrl + 鼠标左键单击即可;",
+                 p(),
+                 "- 可以选择第一列“座次”按哪个指标排序;",
+                 p(),
+                 "- 可以选择第一列“座次”按哪个指标排序;",
+                 p(),
+                 "- 可以选择显示哪些列;",
+                 p(),
+                 "- 点击表格顶部标题可以正反排序;",
+                 p(),
+                 "- 表格右上角搜索栏可以在全表搜索，底部末行可以关键词过滤。",
+                 p(),
+                 hr(),
+                 h4("联系"),
+                 '本网站归', a(href = 'https://steemit.com/@dapeng', '@dapeng'), ' 所有。欢迎提供建议。', 
+                 p(),
+                 img(src="steemit-watermark.png", width="131", height="38"),
+                 hr(),
+                 wellPanel(
+                   h4("累计文章数量"),
+                   plotOutput('cngreen_plot3', height = 200),
+                   hr(),
+                   h4("累计获赞数量"),
+                   plotOutput('cngreen_plot1', height = 200),
+                   hr(),
+                   h4("累计文章收益"),
+                   plotOutput('cngreen_plot2', height = 200)
+                 )
+                 
+               ),
+               mainPanel(
+                 wellPanel(
+                   h3("文章榜："),
+                   hr(),
+                   checkboxGroupInput(
+                     inputId = "cngreen_colsel",
+                     label   = "选择显示哪些列:",
+                     choices = c('date', 'author', 'title', 'payout','votes'), #'level', 
+                     selected = c('date', 'author', 'title', 'payout','votes'),
+                     inline = TRUE
+                   ),
+                   hr(),
+                   radioButtons(
+                     inputId = "cngreenN",
+                     label   = "座次依据:",
+                     # label   = "Rank in:",
+                     choices = c('payout','votes'),
+                     selected = 'payout',
+                     inline = TRUE
+                   ),
+                   hr(),
+                   
+                   dataTableOutput('cngreen_dt1')
+                 ),
+                 wellPanel(
+                   h3("人物榜："),
+                   hr(),
+                   checkboxGroupInput(
+                     inputId = "cngreena_colsel",
+                     label   = "选择显示哪些列:",
+                     choices = c('author', 'posts', 'payout','votes'),
+                     selected = c('author', 'posts', 'payout','votes'),
+                     inline = TRUE
+                   ),
+                   hr(),
+                   radioButtons(
+                     inputId = "cngreenaN",
+                     label   = "座次依据:",
+                     choices = c('posts', 'payout','votes'),
+                     selected = 'posts',
+                     inline = TRUE
+                   ),
+                   hr(),
+                   dataTableOutput('cngreen_dt2')
+                 )),
+               position = "right"
+             )
+    ),
+    
 ###### cnkids ######
 tabPanel("儿童作品|CN-kids",
          sidebarLayout(

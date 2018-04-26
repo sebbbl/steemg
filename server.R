@@ -216,4 +216,63 @@ server <- function(input, output, session) {
     plotdate(cnkids$date, cnkids$cum_posts, mylegend = 'Cumulative Posts', myxlim = cnkidsxlim)
   })
   
+  ###### cngreen ######
+  cngreen <- read.csv('https://raw.githubusercontent.com/pzhaonet/keller/master/mr/cngreen.txt', stringsAsFactors = FALSE, encoding = 'UTF-8', quote = '')
+  names(cngreen) <- substr(names(cngreen), 3, nchar(names(cngreen))-1)
+  cngreen$date <- as.Date(cngreen$date)
+  cngreen$author <- gsub('"', '', cngreen$author)
+  cngreen$author <- paste0('<a href="https://steemit.com/@', cngreen$author, '">@', cngreen$author , '</a>')
+  cngreen$title <- gsub('"', '', cngreen$title)
+  cngreen$url <- gsub('"', '', cngreen$url)
+  cngreen$title <- paste0('<a href="https://steemit.com', cngreen$url, '">', cngreen$title , '</a>')
+  cngreen$cum_posts <- 1:nrow(cngreen)
+  cngreen$cum_payout <- cumsum(cngreen$payout)
+  cngreen$cum_votes <- cumsum(cngreen$votes)
+  cngreenslmax <- nrow(cngreen)
+  cngreen_author <- read.csv('https://raw.githubusercontent.com/pzhaonet/keller/master/mr/cngreen_author.txt', stringsAsFactors = FALSE, encoding = 'UTF-8', quote = '')
+  names(cngreen_author) <- substr(names(cngreen_author), 3, nchar(names(cngreen_author))-1)
+  cngreen_author$author <- gsub('"', '', cngreen_author$author)
+  cngreen_author$author <- paste0('<a href="https://steemit.com/@', cngreen_author$author, '">@', cngreen_author$author , '</a>')
+  cngreenaslmax <- nrow(cngreen_author)
+  output$cngreen_dt1 = renderDataTable({
+    mymatcngreen <- cngreen
+    mymatcngreen <- mymatcngreen[, c(1:3, 5:6)]
+    cngreenN <- 'payout'
+    mymatcngreen[, 'Rank'] <- floor(rank(-mymatcngreen[, input$cngreenN]))
+    mymatcngreen <- mymatcngreen[rev(order(mymatcngreen[, 'date'])), ]
+    # cngreen_colsel <- c('date', 'author', 'title', 'payout','votes', 'score', 'prize')
+    mymatcngreenout <- mymatcngreen[, c('Rank', input$cngreen_colsel)]
+    names(mymatcngreenout) <- zh$zh[match(names(mymatcngreenout), zh$en)]
+    mymatcngreenout
+  },
+  options = list(lengthMenu = c(10, 50, 100, cngreenslmax), pageLength = 10), escape = FALSE
+  )
+  
+  output$cngreen_dt2 = renderDataTable({
+    mymatcngreena <- cngreen_author
+    # mraN <- 'payout'
+    # mymatmra[, 'Rank'] <- floor(rank(-mymatmra[, mraN]))
+    mymatcngreena[, 'Rank'] <- floor(rank(-mymatcngreena[, input$cngreenaN]))
+    mymatcngreena <- mymatcngreena[order(mymatcngreena[, 'Rank']), ]
+    # mra_colsel <- c('posts', 'payout','votes', 'character')
+    # mymatmraout <- mymatmra[, c('Rank', mra_colsel)]
+    mymatcngreenaout <- mymatcngreena[, c('Rank', input$cngreena_colsel)]
+    names(mymatcngreenaout) <- zh$zh[match(names(mymatcngreenaout), zh$en)]
+    mymatcngreenaout
+  },
+  options = list(lengthMenu = c(10, 50, 100, cngreenaslmax), pageLength = 10), escape = FALSE
+  )
+  cngreenxlim <- range(cngreen$date)
+  output$cngreen_plot1 <- renderPlot({
+    plotdate(cngreen$date, cngreen$cum_votes, mylegend = 'Cumulative Votes', myxlim = cngreenxlim, mycol = 'blue')
+  })
+  output$cngreen_plot2 <- renderPlot({
+    plotdate(cngreen$date, cngreen$cum_payout, mylegend = 'Cumulative Payout (SBD)', myxlim = cngreenxlim, mycol = 'red')
+  })
+  output$cngreen_plot3 <- renderPlot({
+    plotdate(cngreen$date, cngreen$cum_posts, mylegend = 'Cumulative Posts', myxlim = cngreenxlim)
+  })
+  
+  
+  
 }

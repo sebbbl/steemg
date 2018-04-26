@@ -43,6 +43,8 @@ Each activity page on steemg will have a notice board, so that users will get th
 
 ### Updates
 
+- 2018-04-26. New page for:
+  - CN-green contest
 - 2018-04-24. New page for:
   - CN-kids contest
 - 2018-04-05. Start. Including:
