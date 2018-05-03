@@ -208,7 +208,7 @@ ui <- fluidPage(
              sidebarLayout(
                sidebarPanel(
                  p(),
-                 img(src="https://steemitimages.com/0x0/https://www.seewhatgrows.org/wp-content/uploads/2016/05/Sustainable-Gardening-Tips.jpg", width="300"),
+                 img(src="https://steemitimages.com/DQmXxz668xNMvnkPNQT2jX6cDUj1CV9DXVejpKoBjGeAeFH/33.jpg", width="300"),
                  h2("环保主题征文"),
                  h4("用途: "),
                  "展示环保主题征文作品的文章和作者。", 
